@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><title>Product Manager</title>
+</head>
+<body><div  style="color:purple">
+<div align="center">
+    <h1>Product List</h1>
+    <a href="/inputmin">for filter</a>
+    <a href="/new">Create New Product</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Made In</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${listProducts}">
+                <td th:text="${product.id}">Product ID</td>
+                <td th:text="${product.name}">Name</td>
+                <td th:text="${product.brand}">Brand</td>
+                <td th:text="${product.madein}">Made in</td>
+                <td th:text="${product.price}">Price</td>
+                <td><a th:href="@{'/edit/' + ${product.id}}">Edit</a></td>
+                  <td><a th:href="@{'/delete/' + ${product.id}}">delete</a></td>
+            </tr>
+        </tbody>
+    </table><br><br>
+ 
+<div style="color:orange"> <h3>filter by id</h3>
+    <form th:action="@{/minmax}"><table border="4">
+   <tr><th> enter minimum value: </th><th><input type="text"  name="maxvalue" id="maxvalue" size="50" th:value="${maxvalue}" />
+    &nbsp;</th></tr>
+   <tr><th> enter maximum value: </th><th><input type="text"  name="minvalue" id="minvalue" size="50" th:value="${minvalue}"  />
+    &nbsp;</th></tr>
+    <br>
+   <tr> <th colspan="2"><input type="submit" id="btnsr" value="Search" /></th><th>
+</th>   </tr></table>
+</form>
+</div>   
+<br><br><div style="color:green"> <h3>filter by price</h3>
+    <form th:action="@{/ZP}"> <table border="2"><tr><th>
+    macprice</th><th><input type="text" name="maxprice" value="0.0"></th></tr>
+  <tr><th>minprice</th><th><input type="text" name="minprice" value="0.0" ></th></tr>
+    <tr><th colspan="2"><input type="submit" value="submit"></th><th></th></form></table>
+</div> 
+</div>  
+</body>
+</html>
+<!--  -- <form th:action="@{/Z1}"><table border="3">
+    enter minimum value: <input type="text"  name="keyword1" id="keyword1" size="50" th:value="${keyword1}"  />
+    &nbsp;<br>
+    
+    <br>
+    <input type="submit" id="btnsr" value="Search" />
+    &nbsp;
+    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+</form></table>------->

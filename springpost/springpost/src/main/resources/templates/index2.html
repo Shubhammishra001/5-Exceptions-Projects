@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>index.html page </h1>
+
+Enter value : <input type="text" value="Hello" id="mytextbox" />
+
+<button onclick="myAjaxFun()">My Ajax test 2</button>
+
+<br/><br/>
+<div id="resid"> Here API response will come </div>
+<br/><br/>
+
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+
+function myAjaxFun(){
+	
+	var val = document.getElementById("mytextbox").value;
+	
+	alert("Hello " + val);
+	var xhttp = new XMLHttpRequest();
+	 
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	     document.getElementById("resid").innerHTML = this.responseText;
+	    }
+	};
+	  
+	var apiurl =  "testapi2?id=" + val;
+    xhttp.open("GET", apiurl, true);
+	xhttp.send();
+	
+	
+}
+
+
+</script>

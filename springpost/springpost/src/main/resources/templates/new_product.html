@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ 
+	 <div>	
+ 	<form th:object="${product}">
+ 
+            <table border="0" cellpadding="10">
+                <tr>
+                    <td>Product Name:</td>
+                    <td><input id="name" type="text" th:field="*{name}" /></td>
+                </tr>
+                <tr>
+                    <td>Brand:</td>
+                    <td><input id="brand" type="text" th:field="*{brand}" /></td>
+                </tr>
+                <tr>
+                    <td>Made In:</td>
+                    <td><input id="madein" type="text" th:field="*{madein}" /></td>
+                </tr>
+                <tr>
+                    <td>Price:</td>
+                    <td><input id="price" type="text" th:field="*{price}" /></td>
+                </tr>                            
+                <tr>
+                    <td colspan="2">
+						<button onclick="return myAjaxFun()">Save</button>
+					</td>
+                </tr>
+            </table>
+        </form>
+        
+    </div>
+    Result
+    <div id="resid">result will come here </div>	
+</body>
+</html>
+<script type="text/javascript">
+function myAjaxFun(){
+//var val = document.getElementById("mytextbox").value;
+	alert("PLEASE WAIT LOADING" );
+	var name = document.getElementById("name").value;
+	var brand = document.getElementById("brand").value;
+	var madein = document.getElementById("madein").value;
+	var price = document.getElementById("price").value;
+	
+	console.log("name-----"+name);
+	
+	//alert("Hello " + val);
+	alert("you want insert this");
+	var xhttp = new XMLHttpRequest();
+	 
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	     document.getElementById("resid").innerHTML = this.responseText;
+	     alert(" insert successful");
+	    }
+	};
+	  
+	//	var apiurl =  "restapi?id=" + val;
+	
+	var apiurl =  "save?name=" + name + "&brand=" + brand +"&madein="+ madein + "&price=" + price;
+	console.log("apiurl=" + apiurl);
+	//new?name=ghrfgh&brand=fgefrg&madein=gfdg&price=45
+	xhttp.open("POST",apiurl, true);
+	xhttp.send();
+	return false;
+}
+
+
+</script>

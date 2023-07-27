@@ -1,0 +1,210 @@
+<html>
+<head>
+</head>
+<body>
+
+  <button type="button" id="myBtn1" onclick="loadData()">Click Me</button>
+<table id="productListDiv" class="product1" border="1" > </table>
+
+<div id="editproductDiv" border="1" style="display:none;"> 
+
+            <table border="0" cellpadding="10">
+
+                <tr>
+                    <td>Product Id:</td>
+                    <td><input id="pid" type="text" readonly="readonly"/></td>
+                </tr>
+
+                <tr>
+                    <td>Product Name:</td>
+                    <td><input id="name" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>Brand:</td>
+                    <td><input id="brand" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>Made In:</td>
+                    <td><input id="madein" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>Price:</td>
+                    <td><input id="price" type="text" /></td>
+                </tr>                            
+                <tr>
+                    <td colspan="2">
+						<button onclick="return updateProd()">Update</button>
+					</td>
+                </tr>
+            </table>
+	</form>
+</div>
+
+ 
+ <p id="content"></p> 
+<script type="text/javascript">
+
+function loadData(){
+	        
+	
+
+      fetch("productList")
+       .then(result=>result.json())
+          .then(json=>show(json))  // json to html
+ 	 
+}
+function show(productJson){           // show function start
+	
+	let productListDiv=document.getElementById('productListDiv');
+	alert("display record ");  // get object 
+	
+	for(let i=0;i<productJson.length;i++){
+		let prodObj=productJson[i];    // product division
+	    console.log(prodObj);
+
+	    let row=document.createElement('tr');             //0 row
+	    let idEle=document.createElement('td');
+	    let nameEle=document.createElement('td');
+	    let brandEle=document.createElement('td');
+	    let madeinEle=document.createElement('td');
+	    let priceEle=document.createElement('td');
+	    let updatebtnEle=document.createElement("BUTTON"); 
+	    let deletebtnEle=document.createElement("BUTTON");// update button 
+	    // var updateTextNode = document.createTextNode("update");
+	    
+	    idEle.innerHTML=prodObj.id;
+	    nameEle.innerHTML=prodObj.name;
+	    brandEle.innerHTML=prodObj.brand;
+	    madeinEle.innerHTML=prodObj.madein;
+	    priceEle.innerHTML=prodObj.price;
+        // appending text to button
+        // updatebtnEle.appendChild(updateTextNode);
+	    updatebtnEle.innerHTML = "update Me";  // text asignment
+	    deletebtnEle.innerHTML = "delete  Me";
+        row.appendChild(idEle)
+	    row.appendChild(nameEle)
+	    row.appendChild(brandEle)
+	    row.appendChild(madeinEle)
+	    row.appendChild(priceEle)
+	    row.appendChild(updatebtnEle)
+	    row.appendChild(deletebtnEle)
+	    productListDiv.appendChild(row)
+	    
+		updatebtnEle.onclick = function () {  // update function call 
+        	fetchProdDetail(prodObj.id);
+      	};	 
+      	deletebtnEle.onclick = function () {  // delete function call 
+        	delProdDetail(prodObj.id);
+      	};
+	    
+	}
+	// end for loop 
+
+}
+// end function
+
+function fetchProdDetail(prodId){
+
+	// alert("fetch dfun");
+
+	//let productListDiv=document.getElementById('productListDiv');
+	let editproductDiv=document.getElementById('editproductDiv');
+	// alert("update button click pid=" + prodId);
+	var reqobj=new XMLHttpRequest();  //obj 
+	
+	reqobj.onload=function()
+	{ 
+	
+		  if(reqobj.status===200)
+		  {	  
+				
+				// show the div  
+				document.getElementById('editproductDiv').style.display = "block";
+				
+			    prodObject=JSON.parse(reqobj.responseText);
+				
+			    
+			    document.getElementById('pid').value = prodObject.id;
+			    document.getElementById('name').value = prodObject.name;
+				document.getElementById('brand').value = prodObject.brand;
+				document.getElementById('madein').value = prodObject.madein;
+				document.getElementById('price').value = prodObject.price;
+				
+
+				/*
+			    var newContent='';
+			    newContent+='<p>name:'+prodObject.name+'<br>';
+				newContent+='<p>price:'+prodObject.price+'<br>';
+				newContent+='<p>madein:'+prodObject.madein+'<br>';
+			     newContent	+= '<hr>';
+			     document.getElementById('content').innerHTML=newContent;
+			   */  
+				// alert("edit successfull");
+				 
+		  }
+	};
+	
+	// var apiurl =  "testapi2?id=" + prodId;
+	var apiurl =  "/edit/" + prodId;
+	
+	
+	//var apiurl =  "testapi2";
+	      // request ready to sand 
+	reqobj.open('GET',apiurl,true);// PUT
+	reqobj.send();//sand 
+}
+
+	
+function updateProd(prodId){
+	        var id =  document.getElementById("pid").value;
+           	var name =  document.getElementById("name").value;
+           	var brand=  document.getElementById("brand").value;
+	        var madein= document.getElementById('madein').value
+	        var price=  document.getElementById('price').value
+	   confirm("update to name-"+name+"brand- "+brand+"madein-"+madein+"price-"+price);
+	        var xhttp = new XMLHttpRequest();
+	   	 
+	  	  xhttp.onreadystatechange = function() {
+	  	    if (this.readyState == 4 && this.status == 200) {
+	  	     document.getElementById("productListDiv").innerHTML = this.responseText;
+	  		alert("new record save sucessfully");
+	  	    }
+	  	  };
+	  	  
+	  	var apiurl =  "update?id="+id+"&name=" + name + "&brand=" + brand +"&madein="+ madein + "&price=" + price;
+	  
+	  	  xhttp.open("Post", apiurl, true);
+	  	//alert("new data request id=  "+id);
+	  	  xhttp.send();
+	  	  
+}//end of updateprod function	
+	//delte start\
+	function delProdDetail(prodid){
+	
+        // var id =  document.getElementById("pid").value;
+        
+        confirm("sre you sure to delete "+prodid);
+        var xhttp = new XMLHttpRequest();
+   	 
+  	  xhttp.onreadystatechange = function() {
+  	    if (this.readyState == 4 && this.status == 200) {
+  	     document.getElementById("productListDiv").innerHTML = this.responseText;
+  		alert("deleted");
+  	    }
+  	  };
+  	  
+  	var apiurl =  "delete/"+prodid;//+"&name=" + name + "&brand=" + brand +"&madein="+ madein + "&price=" + price;
+  
+  	  xhttp.open("Get", apiurl, true);
+  	 // alert("new data request id=  "+prodid);
+  	  xhttp.send();
+  	  
+}
+	
+	
+
+	
+ </script> -->
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1 align="center">filter page </h1>
+<h1 align="center"> enter minimum value  </h1>
+<table><<tr>
+          <input type="number" name="minprice" align="center" ><br>
+          </tr><tr><tr><input type="submit" name="submit"  align="center" value="submit">
+          </tr> <td th:text="${product.id}">Product ID</td>
+                <td th:text="${product.name}">Name</td>
+                <td th:text="${product.brand}">Brand</td>
+                <td th:text="${product.madein}">Made in</td>
+                <td th:text="${product.price}">Price</td></table>
+
+
+
+
+</body>
+</html>
